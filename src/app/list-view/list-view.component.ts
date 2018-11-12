@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostListService } from '../services/post-list.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { Post } from '../models/Post.model';
 
 @Component({
   selector: 'app-list-view',
@@ -11,14 +12,14 @@ import { Router } from '@angular/router';
 export class ListViewComponent implements OnInit {
 
 
-  posts: any[];
+  posts: Post[];
   postListSubcription: Subscription;
   constructor(private postListService: PostListService,
               private router: Router) { }
 
   ngOnInit() {
     this.postListSubcription = this.postListService.postListSubject.subscribe(
-    (posts: any[]) => {
+    (posts: Post[]) => {
       this.posts = posts;
     }
   );

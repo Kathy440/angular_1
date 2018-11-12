@@ -3,21 +3,19 @@ import { Subject, Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import * as firebase from 'firebase'; 
 import { Router } from "@angular/router";
+import { Post } from "../models/Post.model";
 
 @Injectable()
 export class PostListService {
 
-    postListSubject = new Subject<any[]>();
-    private posts = [
-
-    ] ;
+    postListSubject = new Subject<Post[]>();
+   posts: Post[] = [];
 
       constructor(private httpClient: HttpClient, private router: Router) {}
       //méthode pour pouvoir acceder la liste des appareils
       //.slice pour émettre une copie de cette array
       emitPostsSubject() {
         this.postListSubject.next(this.posts.slice());
-        console.log(this.posts);
       }
 
       savePostToServer() {
@@ -35,7 +33,7 @@ export class PostListService {
 
   getPostFromServer() {
     this.httpClient
-      .get<any[]>('https://dernier-projet-angular.firebaseio.com/posts.json')
+      .get<Post[]>('https://dernier-projet-angular.firebaseio.com/posts.json')
       .subscribe(
         (response) => {
           this.posts = response;
@@ -83,18 +81,20 @@ addPost(title: string, content: string) {
 
 
   onLoveIt(i: number) {
-    this.posts[i].loveIts ++;
-    
-    return this.posts[i].loveIts;
+    this.posts[i].loveIts++ ;
     this.emitPostsSubject();
+    return this.posts[i].loveIts;
+    
+    
   }
 
   onDontLoveIt(i: number) {
-    console.log(i);
     this.posts[i].loveIts --;
-    return this.posts[i].loveIts;
     this.emitPostsSubject();
+    return this.posts[i].loveIts;
   }
 
+
+  
 
 }

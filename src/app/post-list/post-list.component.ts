@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostListService } from '../services/post-list.service';
 import { Subscription } from 'rxjs';
+import { Post } from '../models/Post.model';
 
 @Component({
   selector: 'app-post-list',
@@ -19,7 +20,7 @@ export class PostListComponent implements OnInit {
   @Input() id: number;
   
 
-  posts: any[];
+  posts: Post[] = [];
   postListSubcription: Subscription;
 
   constructor(private postListService: PostListService,
