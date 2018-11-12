@@ -66,7 +66,6 @@ export class PostListComponent implements OnInit {
   
   onFetch() {
     this.postListService.getPostFromServer();
-    //console.log(this.postListService.getPostFromServer());
   }
 
   loveIts() {
