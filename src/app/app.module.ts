@@ -14,7 +14,8 @@ import { ListViewComponent } from './list-view/list-view.component';
 
 const appRoutes: Routes = [
   { path: 'posts', component: ListViewComponent },
-  { path: 'posts/new', component: NewPostComponent }
+  { path: 'posts/new', component: NewPostComponent },
+  { path: '', component: ListViewComponent }
   
 ];
 
