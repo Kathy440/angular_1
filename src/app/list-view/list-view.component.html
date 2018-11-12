@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>Mes Posts</h1>
+      <ul class="list-group">
+          <app-post-list *ngFor="let post of posts; let i = index"
+                          [postTitle]="post.title"
+                          [postContent]="post.content"
+                          [postloveIts]="post.loveIts"
+                          [postcreate_date]="post.create_at"
+                          [index]="i"
+                          [id]="post.id"
+                          >
+                
+          </app-post-list>
+        </ul>
+        
+    
+      <button class="btn btn-primary"
+        (click)="onFetch()">Récupérer les Posts</button>
+
+<br>
+<br>
+<br>
+        <button class="btn btn-primary"
+        (click)="onSave()">Enregistrer les posts (NE PAS CLIQUEZ ICI AVANT D'AVOIR Récuperer les posts !)</button>
+      </div>
+    </div>
+  </div>
+

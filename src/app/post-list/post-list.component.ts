@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { resolve } from 'url';
+import { Router } from '@angular/router';
+import { PostListService } from '../services/post-list.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post-list',
@@ -13,13 +15,25 @@ export class PostListComponent implements OnInit {
   @Input() postloveIts: number;
   @Input() postcreate_date: Date;
 
+  @Input() index: number;
+  @Input() id: number;
   
 
-  constructor() { }
+  posts: any[];
+  postListSubcription: Subscription;
+
+  constructor(private postListService: PostListService,
+              private router: Router) { }
 
   ngOnInit() {
+    this.postListSubcription = this.postListService.postListSubject.subscribe(
+      (posts: any[]) => {
+        this.posts = posts;
+      }
+    );
+    this.postListService.emitPostsSubject();
   }
-
+  
   getColor() {
       if(this.postloveIts>0) {
         return 'green';
@@ -27,15 +41,6 @@ export class PostListComponent implements OnInit {
         return 'red';
       }
   }
-
-  loveIt() {
-    this.postloveIts++;
-  }
-
-  dontloveIt() {
-    this.postloveIts--;
-  }
-
 
   lastUpdate = new Promise((resolve, reject) => {
     const date = new Date();
@@ -46,4 +51,31 @@ export class PostListComponent implements OnInit {
     );
   });
 
+  onNewPost() {
+    this.router.navigate(['/posts', 'new']);
+  }
+
+
+  onDeletePost(posts) {
+    this.postListService.deletePost(posts);
+  }
+
+  onSave() {
+    this.postListService.savePostToServer();
+  }
+  
+  onFetch() {
+    this.postListService.getPostFromServer();
+    //console.log(this.postListService.getPostFromServer());
+  }
+
+  loveIts() {
+    this.postListService.onLoveIt(this.index);
+  }
+
+  dontloveIt() {
+    this.postListService.onDontLoveIt(this.index);
+  }
+  
+  
 }
